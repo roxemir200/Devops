@@ -3,7 +3,6 @@ package tn.esprit.studentmanagement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import tn.esprit.studentmanagement.entities.Department;
 import tn.esprit.studentmanagement.repositories.DepartmentRepository;
 import tn.esprit.studentmanagement.services.DepartmentService;
@@ -15,18 +14,19 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+@ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class StudentManagementApplicationTests {
 
-    @MockBean
+    @Mock
     private DepartmentRepository departmentRepository;
 
-    // Vous devez injecter le DepartmentService ou le créer manuellement
-    // Option 1: Si DepartmentService est un bean Spring
-    // @Autowired
-    // private DepartmentService departmentService;
-    
-    // Option 2: Créer manuellement
+    @InjectMocks
     private DepartmentService departmentService;
     
     private Department department1;
@@ -34,32 +34,16 @@ class StudentManagementApplicationTests {
 
     @BeforeEach
     void setUp() {
-        // Initialiser le service avec le mock repository
-        departmentService = new DepartmentService();
-        
-        // Pour injecter le mock dans le service, vous avez besoin d'un setter
-        // ou de la réflexion. Voici avec la réflexion :
-        try {
-            var field = DepartmentService.class.getDeclaredField("departmentRepository");
-            field.setAccessible(true);
-            field.set(departmentService, departmentRepository);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        
-        // Initialisation des données de test
-        department1 = new Department();
-        department1.setId(1L);
-        department1.setName("Informatique");
-        
-        department2 = new Department();
-        department2.setId(2L);
-        department2.setName("Mathématiques");
+        // Créer les objets Department avec le constructeur
+        // Puisque vous avez @AllArgsConstructor, vous pouvez utiliser new Department(...)
+        department1 = new Department(1L, "Informatique", "Bâtiment A", "0123456789", "Dr. Smith", null);
+        department2 = new Department(2L, "Mathématiques", "Bâtiment B", "0987654321", "Dr. Johnson", null);
     }
 
     @Test
     void contextLoads() {
         // Test d'intégration existant
+        assertTrue(true);
     }
 
     @Test
@@ -88,7 +72,7 @@ class StudentManagementApplicationTests {
 
         // Assert
         assertNotNull(result);
-        assertEquals(1L, result.getId());
+        assertEquals(1L, result.getIdDepartment()); // Utilisez getIdDepartment() ici
         assertEquals("Informatique", result.getName());
         verify(departmentRepository, times(1)).findById(1L);
     }
@@ -115,7 +99,7 @@ class StudentManagementApplicationTests {
 
         // Assert
         assertNotNull(result);
-        assertEquals(1L, result.getId());
+        assertEquals(1L, result.getIdDepartment()); // Utilisez getIdDepartment() ici
         assertEquals("Informatique", result.getName());
         verify(departmentRepository, times(1)).save(department1);
     }
