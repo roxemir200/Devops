@@ -2,7 +2,10 @@ package tn.esprit.studentmanagement;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import tn.esprit.studentmanagement.entities.Department;
 import tn.esprit.studentmanagement.repositories.DepartmentRepository;
 import tn.esprit.studentmanagement.services.DepartmentService;
@@ -14,20 +17,15 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.junit.jupiter.api.extension.ExtendWith;
-
+// REMOVE @SpringBootTest et ajoutez MockitoExtension
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 class StudentManagementApplicationTests {
 
     @Mock
-    private DepartmentRepository departmentRepository;
+    private DepartmentRepository departmentRepository; // Mock simple
 
     @InjectMocks
-    private DepartmentService departmentService;
+    private DepartmentService departmentService; // Service avec mocks injectés
     
     private Department department1;
     private Department department2;
@@ -35,15 +33,8 @@ class StudentManagementApplicationTests {
     @BeforeEach
     void setUp() {
         // Créer les objets Department avec le constructeur
-        // Puisque vous avez @AllArgsConstructor, vous pouvez utiliser new Department(...)
         department1 = new Department(1L, "Informatique", "Bâtiment A", "0123456789", "Dr. Smith", null);
         department2 = new Department(2L, "Mathématiques", "Bâtiment B", "0987654321", "Dr. Johnson", null);
-    }
-
-    @Test
-    void contextLoads() {
-        // Test d'intégration existant
-        assertTrue(true);
     }
 
     @Test
@@ -72,7 +63,7 @@ class StudentManagementApplicationTests {
 
         // Assert
         assertNotNull(result);
-        assertEquals(1L, result.getIdDepartment()); // Utilisez getIdDepartment() ici
+        assertEquals(1L, result.getIdDepartment());
         assertEquals("Informatique", result.getName());
         verify(departmentRepository, times(1)).findById(1L);
     }
@@ -99,7 +90,7 @@ class StudentManagementApplicationTests {
 
         // Assert
         assertNotNull(result);
-        assertEquals(1L, result.getIdDepartment()); // Utilisez getIdDepartment() ici
+        assertEquals(1L, result.getIdDepartment());
         assertEquals("Informatique", result.getName());
         verify(departmentRepository, times(1)).save(department1);
     }
