@@ -57,6 +57,6 @@ spec:
     app: spring-app
   ports:
     - port: 8080        # Port du Service Kubernetes
-      targetPort: 8089  # Port du conteneur (doit correspondre à containerPort)
+      targetPort: 8080  # Port du conteneur (doit correspondre à containerPort)
       nodePort: 30080   # Port exposé sur la VM (accessible via http://<VM_IP>:30080)
   type: NodePort
