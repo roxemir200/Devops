@@ -36,9 +36,9 @@ spec:
     spec:
       containers:
       - name: spring-app
-        image: emirdjebbi/student-management:latest
+        image: emirdjebbi/alpine:1.0.0
         ports:
-        - containerPort: 8080  # Port interne du conteneur Spring Boot
+        - containerPort: 8089  # Port interne du conteneur Spring Boot
         envFrom:
         - configMapRef:
             name: spring-config
@@ -57,6 +57,6 @@ spec:
     app: spring-app
   ports:
     - port: 8080        # Port du Service Kubernetes
-      targetPort: 8080  # Port du conteneur (doit correspondre à containerPort)
+      targetPort: 8089  # Port du conteneur (doit correspondre à containerPort)
       nodePort: 30080   # Port exposé sur la VM (accessible via http://<VM_IP>:30080)
   type: NodePort
