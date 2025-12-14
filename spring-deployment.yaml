@@ -38,7 +38,7 @@ spec:
       - name: spring-app
         image: emirdjebbi/alpine:1.0.0
         ports:
-        - containerPort: 8089  # Port interne du conteneur Spring Boot
+        - containerPort: 8080  # Port interne du conteneur Spring Boot
         envFrom:
         - configMapRef:
             name: spring-config
